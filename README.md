@@ -29,6 +29,7 @@ Learn constantly, build criteria, be a rockstar like my role models.
 * Avdi
 * Chad Fowler
 * DHH
+* Steve Klabnik
 * Yehuda
 * Paul Biggar
 * and so many more I can't remember right now.
