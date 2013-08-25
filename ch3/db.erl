@@ -53,18 +53,24 @@
 %   10> db:match(stockholm, Db4).
 %   [joern]
 
--export([new/0, write/3, read/2]).
+-export([new/0, write/3, read/2, match/2]).
 
 new () ->
   [].
 
+
 write (Key, Element, Db) ->
   [{ Key, Element }|Db].
 
-% The [H|T] Head matches the Key.
-read (Key, [{Key, Element}|_])  -> {ok, Element};
-% We iterate over until the list end.
-read (_, []) -> {error, instance};
-% Anything matches from above, recursion with Tail.
-read (Key, [_|T]) ->
-  read(Key, T).  % {alan, mexico}
+
+read (Key, [{Key, Element}|_]) -> {ok, Element}; % In [H|T], the Head matches the Key : )
+read (_, []) -> {error, instance}; % We iterate until the list ends.
+read (Key, [_|T]) -> read(Key, T). % Anything matches from above, we do recursion with the Tail.
+
+
+% This was a tough one.
+match (Element, {Key, Element}, Acc) -> [Key|Acc];
+match (_,       {_,_},          Acc) -> Acc.
+
+match (Element, [H|T]) -> match(Element, H, match(Element, T));
+match (_, []) -> [].
