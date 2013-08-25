@@ -53,7 +53,7 @@
 %   10> db:match(stockholm, Db4).
 %   [joern]
 
--export([new/0, write/3, read/2, match/2]).
+-export([new/0, write/3, read/2, match/2, delete/2]).
 
 new () ->
   [].
@@ -74,3 +74,12 @@ match (_,       {_,_},          Acc) -> Acc.
 
 match (Element, [H|T]) -> match(Element, H, match(Element, T));
 match (_, []) -> [].
+
+
+
+% This was super hard too.
+delete (Key, Db) -> delete (Key, Db, []).
+delete (Key,  [H|T], Acc) -> delete(Key, H, delete(Key, T, Acc));
+delete (Key,  {Key, _ }, Acc) -> Acc;
+delete (_Key, {Key, El}, Acc) -> [{Key, El}|Acc];
+delete (_Key, [], Acc) -> Acc.
